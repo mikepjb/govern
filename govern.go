@@ -8,10 +8,48 @@ import (
   "log"
   "bytes"
   "strings"
+  "strconv"
 )
 
 // TODO this will eventually return a map
 func bencodeUnmarshal(bencodedString string) string {
+  currentElement := ""
+  remainingValueLength := 0
+  parsingDictionary := false
+  parsingLength := false
+  parsingValue := false
+
+  for _, c := range bencodedString {
+    char := string(c)
+
+    if parsingDictionary {
+      if char == ":" {
+        if parsingLength {
+          remainingValueLength, _ = strconv.Atoi(currentElement) // parse string to int
+          parsingValue = true
+          parsingLength = false
+        } else if parsingValue {
+          remainingValueLength--
+        }
+
+        currentElement = ""
+        // "change of mode..."
+      } else {
+        currentElement += currentElement
+      }
+    } else {
+      if char == "d" { // we are parsing a dictionary
+        // parse first key
+        // get key length (variable digits)
+        parsingDictionary = true
+        parsingLength = true
+      }
+    }
+
+    // if i == 0 {
+    //   return string(char)
+    // }
+  }
   return "hoho"
 }
 
