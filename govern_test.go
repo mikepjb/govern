@@ -22,6 +22,21 @@ func TestBencodeDecode(t *testing.T) {
   }
 }
 
+func TestBencodeEncode(t *testing.T) {
+  message := map[string]string{
+    "id": "test-id",
+    "ns": "boot.user",
+    "session": "a647fb12-54ae-4313-8358-1161810de8f3",
+    "value": "#'boot.user/devil",
+  }
+
+  bencodedString := bencodeMarshall(message)
+
+  if bencodedString != "something special" {
+    t.Errorf("the bencoded string was not something special, got %v", bencodedString)
+  }
+}
+
 func TestStringConcat(t *testing.T) {
   start := "hello"
   start += " there"

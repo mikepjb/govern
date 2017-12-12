@@ -48,6 +48,10 @@ func bencodeUnmarshal(bencodedString string) string {
   return strings.Join(words, ",")
 }
 
+func bencodeMarshall(message map[string]string) string {
+  return "something special"
+}
+
 func runCommand(command string) {
   args := strings.Fields(command)
 
