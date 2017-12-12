@@ -14,8 +14,7 @@ import (
 // TODO this will eventually return a map
 // TODO worth noting we don't detect the end of a dictionary
 func bencodeUnmarshal(bencodedString string) string {
-  currentElement := ""
-  currentElementLength := ""
+  parsingBuffer := ""
   remainingValueLength := 0
   parsingDictionary := false
 
@@ -26,17 +25,17 @@ func bencodeUnmarshal(bencodedString string) string {
 
     if parsingDictionary {
       if remainingValueLength != 0 {
-        currentElement += char
+        parsingBuffer += char
         remainingValueLength--
         if remainingValueLength == 0 { // finished parsing element value
-          words = append(words, currentElement)
-          currentElement = ""
+          words = append(words, parsingBuffer)
+          parsingBuffer = ""
         }
       } else if char == ":" { // finished parsing element length
-        remainingValueLength, _ = strconv.Atoi(currentElementLength)
-        currentElementLength = ""
+        remainingValueLength, _ = strconv.Atoi(parsingBuffer)
+        parsingBuffer = ""
       } else { // we must be parsing element length
-        currentElementLength += char
+        parsingBuffer += char
       }
     } else {
       if char == "d" { // we are parsing a dictionary
