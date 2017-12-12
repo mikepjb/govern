@@ -12,17 +12,12 @@ import (
 )
 
 // TODO this will eventually return a map
+// TODO worth noting we don't detect the end of a dictionary
 func bencodeUnmarshal(bencodedString string) string {
   currentElement := ""
   currentElementLength := ""
   remainingValueLength := 0
   parsingDictionary := false
-
-  // states -
-  // parsing dictionary
-  // parsing element length
-  // hitting element delimiter ':'
-  // parsing element content
 
   var words []string
 
@@ -51,8 +46,7 @@ func bencodeUnmarshal(bencodedString string) string {
     }
   }
 
-  fmt.Println(words)
-  return words[0]
+  return strings.Join(words, ",")
 }
 
 func runCommand(command string) {
