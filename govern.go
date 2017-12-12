@@ -10,6 +10,11 @@ import (
   "strings"
 )
 
+// TODO this will eventually return a map
+func bencodeUnmarshal(bencodedString string) string {
+  return "hoho"
+}
+
 func runCommand(command string) {
   args := strings.Fields(command)
 
