@@ -1,4 +1,4 @@
-package main
+package govern
 
 import (
   "strconv"
@@ -22,12 +22,36 @@ func TestBencodeDecode(t *testing.T) {
   }
 }
 
+func TestBencodeMultipleDictionaryDecode(t *testing.T) {
+  bencodedString := "d2:id7:test-id" +
+    "2:ns16:watermarker.core" +
+    "7:session36:57fea508-bc66-42af-b167-a3469da03ec" +
+    "35:value30:#'watermarker.core/this-method" +
+    "e" +
+    "d" +
+    "2:id7:test-id" +
+    "7:session36:57fea508-bc66-42af-b167-a3469da03ec" +
+    "36:statusl4:done" +
+    "e" // + "e" // is this required? surely extra d at front if so.
+
+  output := bencodeUnmarshal(bencodedString)
+
+  expectedMessage := "id,test-id," +
+    "ns,watermarker.core," +
+    "session,57fea508-bc66-42af-b167-a3469da03ec3," +
+    "value,#'watermarker.core/this-method"
+
+  if output != expectedMessage {
+    t.Errorf("the unmarshalled string was not %s, got %v", expectedMessage, output)
+  }
+}
+
 func TestBencodeEncode(t *testing.T) {
   message := map[string]string{
-    "id": "test-id",
-    "ns": "boot.user",
+    "id":      "test-id",
+    "ns":      "boot.user",
     "session": "a647fb12-54ae-4313-8358-1161810de8f3",
-    "value": "#'boot.user/devil",
+    "value":   "#'boot.user/devil",
   }
 
   bencodedString := bencodeMarshall(message)
