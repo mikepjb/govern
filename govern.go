@@ -9,6 +9,7 @@ import (
   "bytes"
   "strings"
   "strconv"
+  "sort"
 )
 
 // TODO this will eventually return a map
@@ -49,7 +50,24 @@ func bencodeUnmarshal(bencodedString string) string {
 }
 
 func bencodeMarshall(message map[string]string) string {
-  return "something special"
+  bencodedMessage := "d"
+  var keys []string
+
+  for k := range message {
+    keys = append(keys, k)
+  }
+
+  sort.Strings(keys)
+
+  for _, key := range keys {
+    value := message[key]
+    bencodedMessage += fmt.Sprintf("%v:%s", len(key), key)
+    bencodedMessage += fmt.Sprintf("%v:%s", len(value), value)
+  }
+
+  bencodedMessage += "e"
+
+  return bencodedMessage
 }
 
 func runCommand(command string) {

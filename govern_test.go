@@ -32,8 +32,10 @@ func TestBencodeEncode(t *testing.T) {
 
   bencodedString := bencodeMarshall(message)
 
-  if bencodedString != "something special" {
-    t.Errorf("the bencoded string was not something special, got %v", bencodedString)
+  expectedMessage := "d2:id7:test-id2:ns9:boot.user7:session36:a647fb12-54ae-4313-8358-1161810de8f35:value17:#'boot.user/devile"
+
+  if bencodedString != expectedMessage {
+    t.Errorf("the bencoded string doesn't match your expected string, got %v", bencodedString)
   }
 }
 
