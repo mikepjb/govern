@@ -1,3 +1,6 @@
+// vim: ft=go
+// named stop so it doesn't interfere with compiling the project
+// this file contains a working example of sending clojure code to the nrepl.
 package main
 
 import (
@@ -10,26 +13,30 @@ import (
 func main() {
   // expectedMessage := "d2:id7:test-id2:ns9:boot.user7:session36:a647fb12-54ae-4313-8358-1161810de8f35:value17:#'boot.user/devile"
 
-  newSessionMessage := "d2:op5:clonee"
+  // newSessionMessage := "d2:op5:clonee"
 
+  // TODO currently getting no response from this message & no def in repl
   // message := "d4:code"+
   // "16:(def thing 123)"+
+  // "2:ns9:boot.user"+
   // "2:id5:an-id"+
   // "2:op4:eval"+
-  // "7:session9:a-sessione"
+  // "7:session36:f4f4aa36-348a-43ea-99f0-c9800f07d5867e"
+  message := "d4:code15:(def seven 444)2:id4:hurl2:op4:eval7:session36:112830d1-8a29-4f55-88e9-6e7e735044c7e"
 
   replAddress, _ := net.ResolveTCPAddr("tcp4", "127.0.0.1:9999")
   socket, _ := net.DialTCP("tcp4", nil, replAddress)
-  socket.Write([]byte(newSessionMessage))
+
+  // socket.Write([]byte(newSessionMessage))
+  socket.Write([]byte(message))
 
   bufReader := bufio.NewReader(socket)
 
   timeoutDuration := 5 * time.Second
   socket.SetReadDeadline(time.Now().Add(timeoutDuration))
-  bytes, _ := bufReader.ReadBytes('\n')
 
+  bytes, _ := bufReader.ReadBytes('\n')
   fmt.Printf("%s", bytes)
 
-  // socket.Write([]byte(message))
   socket.Close()
 }

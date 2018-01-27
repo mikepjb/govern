@@ -5,6 +5,16 @@ import (
   "testing"
 )
 
+func TestBencodeDecodeResponseMessage(t *testing.T) {
+  evalResponse := "d2:id4:hurl2:ns9:boot.user7:session36:112830d1-8a29-4f55-88e9-6e7e735044c75:value17:#'boot.user/sevened2:id4:hurl7:session36:112830d1-8a29-4f55-88e9-6e7e735044c76:statusl4:doneee"
+
+  output := bencodeUnmarshal(evalResponse)
+
+  if output != "haha" {
+    t.Errorf("output was not haha, instead got %v", output)
+  }
+}
+
 // TODO this should be moved to it's own bencode(_test).go file
 func TestBencodeDecode(t *testing.T) {
   bencodedString := "d2:id7:test-id" +
