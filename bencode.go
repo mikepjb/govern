@@ -9,7 +9,7 @@ import (
 
 // TODO this will eventually return a map
 // TODO worth noting we don't detect the end of a dictionary
-func bencodeUnmarshal(bencodedString string) string {
+func BencodeUnmarshal(bencodedString string) string {
   parsingBuffer := ""
   remainingValueLength := 0
   parsingDictionary := false
@@ -43,7 +43,7 @@ func bencodeUnmarshal(bencodedString string) string {
   return strings.Join(words, ",")
 }
 
-func bencodeMarshall(message map[string]string) string {
+func BencodeMarshall(message map[string]string) string {
   bencodedMessage := "d"
   var keys []string
 
