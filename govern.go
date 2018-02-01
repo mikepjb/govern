@@ -1,13 +1,15 @@
-package govern
+package main
 
 import (
   "fmt"
   "flag"
   "os"
+  "io/ioutil"
   "os/exec"
   "log"
   "bytes"
   "strings"
+  "github.com/russross/blackfriday"
 )
 
 func runCommand(command string) {
@@ -47,6 +49,13 @@ func main() {
   } else if strings.HasSuffix(filePath, ".go") {
     fmt.Println("go file found, executing go test")
     runCommand("go test")
+  } else if strings.HasSuffix(filePath, ".md") {
+    markdownFile, _ := ioutil.ReadFile(filePath)
+    output := blackfriday.Run(markdownFile)
+    f, _ := os.Create("thing.html")
+    f.Write(output)
+    f.Sync()
+    f.Close()
   }
 
 }
