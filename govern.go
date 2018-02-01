@@ -6,6 +6,7 @@ import (
   "os"
   "io/ioutil"
   "os/exec"
+  "path/filepath"
   "log"
   "bytes"
   "strings"
@@ -31,6 +32,19 @@ func runCommand(command string) {
   fmt.Print(out.String())
 }
 
+// Converts markdown to html and opens the resulting file in chrome.
+func governMarkdown(filePath string) {
+  markdownFile, _ := ioutil.ReadFile(filePath)
+  output := blackfriday.Run(markdownFile)
+  dir, _ := ioutil.TempDir("", "markdown")
+  outputPath := filepath.Join(dir, "converted_markdown.html")
+  f, _ := os.Create(outputPath)
+  runCommand(strings.Join([]string{"open", outputPath}, " "))
+  f.Write(output)
+  f.Sync()
+  f.Close()
+}
+
 func main() {
   filePtr := flag.String("file", "", "File to determine a task for")
   flag.Parse()
@@ -50,12 +64,7 @@ func main() {
     fmt.Println("go file found, executing go test")
     runCommand("go test")
   } else if strings.HasSuffix(filePath, ".md") {
-    markdownFile, _ := ioutil.ReadFile(filePath)
-    output := blackfriday.Run(markdownFile)
-    f, _ := os.Create("thing.html")
-    f.Write(output)
-    f.Sync()
-    f.Close()
+    governMarkdown(filePath)
   }
 
 }
