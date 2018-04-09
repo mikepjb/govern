@@ -1,4 +1,4 @@
-package govern
+package main
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package govern
+package main
 
 import (
 	"bytes"
@@ -47,24 +47,30 @@ func governMarkdown(filePath string) {
 
 func main() {
 	filePtr := flag.String("file", "", "File to determine a task for")
+	searchPtr := flag.Bool("search", false, "Search for a file")
 	flag.Parse()
 
-	if *filePtr == "" {
-		fmt.Println("no file supplied to govern, please use the -file flag")
+	if *filePtr == "" && *searchPtr == false {
+		fmt.Println("no file supplied to govern, please use the -file or -search flag")
 		os.Exit(0)
 	}
 
-	// TODO find the full filepath by combining current dir with parameter
-	filePath := *filePtr
+	if *searchPtr == true {
+		MakeRoom()
+	} else if *filePtr != "" {
 
-	if strings.HasSuffix(filePath, ".clj") {
-		fmt.Println("clojure file found, executing load-file")
-		// TODO inspect file for deftest OR clojure.test for more stable address.
-	} else if strings.HasSuffix(filePath, ".go") {
-		fmt.Println("go file found, executing go test")
-		runCommand("go test")
-	} else if strings.HasSuffix(filePath, ".md") {
-		governMarkdown(filePath)
+		// TODO find the full filepath by combining current dir with parameter
+		filePath := *filePtr
+
+		if strings.HasSuffix(filePath, ".clj") {
+			fmt.Println("clojure file found, executing load-file")
+			// TODO inspect file for deftest OR clojure.test for more stable address.
+		} else if strings.HasSuffix(filePath, ".go") {
+			fmt.Println("go file found, executing go test")
+			runCommand("go test")
+		} else if strings.HasSuffix(filePath, ".md") {
+			governMarkdown(filePath)
+		}
 	}
 
 }
