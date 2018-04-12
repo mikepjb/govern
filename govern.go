@@ -56,7 +56,7 @@ func main() {
 	}
 
 	if *searchPtr == true {
-		MakeRoom()
+		Search()
 	} else if *filePtr != "" {
 
 		// TODO find the full filepath by combining current dir with parameter

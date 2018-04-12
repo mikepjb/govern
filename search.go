@@ -38,6 +38,12 @@ func FilesInTree(root string) []string {
 // then we send vt100 commands etc there.
 
 // here we are making space for the fuzzy search interface
-func MakeRoom() {
-	fmt.Printf(">>>\n\n\n\n\n\n\n\n\n\n\n")
+// TODO take argument for pwd or workout git root
+// TODO display max only if less than 15 files in path
+func Search() {
+	var fileList = FilesInTree(".")
+	fmt.Printf(">>>\n")
+	for _, path := range fileList[0:15] {
+		fmt.Printf("%s\n", path)
+	}
 }
