@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
 
@@ -42,7 +43,7 @@ func FilesInTree(root string) []string {
 // TODO display max only if less than 15 files in path
 func Search() {
 	var fileList = FilesInTree(".")
-	fmt.Printf(">>>\n")
+	fmt.Printf("%s >>>\n", strconv.Itoa(len(fileList)))
 	for _, path := range fileList[0:15] {
 		fmt.Printf("%s\n", path)
 	}
